@@ -1,0 +1,14 @@
+{
+  "author": "Martijn Pepping",
+  "dependencies": [],
+  "description": "Machine Agent management for AppDynamics",
+  "license": "Apache 2.0",
+  "name": "puppet-appdynamics_agent",
+  "operatingsystem_support": [],
+  "project_page": "https://github.com/mpepping/puppet-appdynamics_agent",
+  "requirements": [],
+  "source": "git://github.com/mpepping/puppet-appdynamics_agent",
+  "summary": "AppDynamics Agent",
+  "tags": [],
+  "version": "1.1.0"
+}

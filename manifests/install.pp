@@ -1,20 +1,35 @@
 # Class appdynamics_agent::install
 #
-class appdynamics_agent::install {
+class appdynamics_agent::install (
+  $version  = $appdynamics_agent::params::version
+){
 
-  Package {  schedule => always }
 
-  package {'appdynamics':
-    ensure   => "appdynamics-${appdynamics_agent::version}",
-    provider => rpm,
-    source   => "puppet:///modules/appdynamics_agent/appdynamics-${appdynamics_agent::version}.noarch.rpm",
-  }
+  anchor { 'appdynamics_agent::install::begin':}
+  -> File['appdynamics_appserveragent']
+  -> File['appdynamics_machineagent']
+  -> Appdynamics_agent::Instance['foo']
+  -> anchor { 'appdynamics_agent::install::end': }
 
-  file {'/etc/init.d/appd_machineagent':
+
+  file {'appdynamics_appserveragent':
     ensure => present,
-    source => 'puppet:///modules/appdynamics_agent/appd_machineagent',
-    mode   => '0755',
-    owner  => root,
-    group  => root,
+    path   => "/opt/appdynamics/AppServerAgent-${version}.zip",
+    source => "puppet:///modules/appdynamics_agent/AppServerAgent-${version}.zip",
+    mode   => '0644',
+    owner  => appdyn,
+    group  => appdyn,
   }
+
+  file {'appdynamics_machineagent':
+    ensure => present,
+    path   => "/opt/appdynamics/MachineAgent-${version}.zip",
+    source => "puppet:///modules/appdynamics_agent/MachineAgent-${version}.zip",
+    mode   => '0644',
+    owner  => appdyn,
+    group  => appdyn,
+  }
+
+  appdynamics_agent::instance {'foo':}
+
 }

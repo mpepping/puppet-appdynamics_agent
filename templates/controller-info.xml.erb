@@ -4,7 +4,7 @@
     <!-- This is the host name or the IP address of the AppDynamics Controller e.g. 192.168.1.22 or myhost or myhost.abc.com
     This is the same host that you use to access the AppDynamics browser based User interface.
     This can be overridden with the system property '-Dappdynamics.controller.hostName' -->
-    <controller-host></controller-host>
+    <controller-host><%= scope.lookupvar('appdynamics_agent::params::appdynamics_host') %></controller-host>
 
     <!-- This is the http(s) port of the AppDynamics Controller , If 'controller-ssl-enabled' below is set to true, you must
     specify the HTTPS port of the Controller, otherwise specify the HTTP port. Controller gets installed at port 8090 by default.
@@ -12,7 +12,7 @@
     If you are using a saas controller, the ssl port is 443
     This is the same port that you use to access the AppDynamics browser based User interface.
     This can be overridden with the system property '-Dappdynamics.controller.port' -->
-    <controller-port></controller-port>
+    <controller-port><%= scope.lookupvar('appdynamics_agent::params::appdynamics_port') %></controller-port>
 
     <!-- This specifies if the AppDynamics agent should use SSL(HTTPS) to connect to the Controller. If you set this to true,
     the controller port property above should be set to the HTTPs port of the Controller.
@@ -24,7 +24,7 @@
     examples for a business application name can be 'ACME Portal' if you are monitoring the portal application or 'ACME ECommerce' etc.
     If a business application of this name does not exist it will be created automatically.
     This can be overridden with the system property '-Dappdynamics.agent.applicationName' -->
-    <application-name><%= @role %></application-name>
+    <application-name><%= @street %></application-name>
 
     <!-- Specify the logical business tier this node belongs to.
     examples for a business tier can be 'ACME Frontend' or 'ACME Backend Service' etc. If your JVM / AppServer start up script already
@@ -32,7 +32,7 @@
     to the same as ${server.tier} This can be overridden with the system property '-Dappdynamics.agent.tierName'
     You may also use expressions as ${server.tier}_${some.property}.MyTier to define the tier name.
     -->
-    <tier-name></tier-name>
+    <tier-name><%= @role + '_tier' %></tier-name>
 
     <!-- Specify a unique name for this jvm node. The name must be unique within the business application. e.g. weblogicinstance23 or
     hweb24. If your JVM / AppServer start up script already has a system property that can be used as a node name, e.g. -Dserver.name
@@ -40,7 +40,7 @@
     The value specified in this xml can be overridden with the system property '-Dappdynamics.agent.nodeName'.
     You may also use expressions as ${server.name}_${host.name}.MyNode to define the node name.
     -->
-    <node-name></node-name>
+    <node-name><%= @fqdn %></node-name>
     
     <!-- Refers to the runtime directory for all runtime files (logs, transaction configuration) for agent nodes using this agent
     installation. The property is optional, by default set to agent-installation-directory . If specified All Agent logs are written
