@@ -24,13 +24,13 @@ define appdynamics_agent::instance (
 
   exec { "appdynamics_appserveragent_unzip_${instance}":
     unless    => "/usr/bin/stat /opt/appdynamics/installed_appserveragent-${instance}-${version}",
-    command   => "/usr/bin/unzip -n /opt/appdynamics/AppServerAgent-${version}.zip -d /opt/appdynamics/AppServerAgent-${instance}/ && touch /opt/appdynamics/AppServerAgent-${instance}-${version}-installed",
+    command   => "/usr/bin/sudo -u appdyn /usr/bin/unzip -n /opt/appdynamics/AppServerAgent-${version}.zip -d /opt/appdynamics/AppServerAgent-${instance}/ && touch /opt/appdynamics/AppServerAgent-${instance}-${version}-installed",
     creates   => "/opt/appdynamics/AppServerAgent-${instance}-${version}-installed",
     logoutput => true,
   }
 
   exec { "appdynamics_machineagent_unzip_${instance}":
-    command => "/usr/bin/unzip -n /opt/appdynamics/MachineAgent-${version}.zip -d /opt/appdynamics/MachineAgent-${instance}/ && touch /opt/appdynamics/MachineAgent-${instance}-${version}-installed",
+    command => "/usr/bin/sudo -u appdyn /usr/bin/unzip -n /opt/appdynamics/MachineAgent-${version}.zip -d /opt/appdynamics/MachineAgent-${instance}/ && touch /opt/appdynamics/MachineAgent-${instance}-${version}-installed",
     creates => "/opt/appdynamics/MachineAgent-${instance}-${version}-installed"
   }
 
