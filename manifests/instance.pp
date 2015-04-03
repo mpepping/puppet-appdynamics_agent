@@ -18,7 +18,7 @@ define appdynamics_agent::instance (
   -> File["/etc/init.d/appdyn-machineagent-${instance}"]
   -> File["${installdir}/AppServerAgent-${instance}/conf/controller-info.xml"]
   -> File["${installdir}/MachineAgent-${instance}/conf/controller-info.xml"]
-  -> Service["appdyn_machineagent_${instance}"]
+  -> Service["appdyn-machineagent-${instance}"]
   -> anchor { 'appdynamics_agent::instance::end': }
 
 
@@ -58,7 +58,7 @@ define appdynamics_agent::instance (
     mode    => '0644',
   }
 
-  service { "appdyn_machineagent_${instance}":
+  service { "appdyn-machineagent-${instance}":
     ensure => running,
     enable => true,
     status => "pgrep -f machineagent.jar | grep ${instance}",
