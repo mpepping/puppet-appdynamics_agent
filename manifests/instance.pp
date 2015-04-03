@@ -4,22 +4,22 @@
 define appdynamics_agent::instance (
 
   $instance         = $title,
-  $version          = hiera('appdynamics_version', '3.9.1.0'),
-  $installdir       = hiera('appdynamics_installdir', '/opt/appdynamics'),
-  $appdynamics_host = hiera('appdynamics_host', 'appdynamics'),
-  $appdynamics_port = hiera('appdynamics_port', '8181')
+  $version          = $appdynamics_agent::params::version,
+  $installdir       = $appdynamics_agent::params::installdir,
+
+  $appdynamics_host = $appdynamics_agent::params::appdynamics_host, 
+  $appdynamics_port = $appdynamics_agent::params::appdynamics_port
 
 ) {
-  include appdynamics_agent::params
 
-  anchor { 'appdynamics_agent::instance::begin':}
+  anchor { "appdynamics_agent::instance::begin::${instance}":}
   -> Exec["appdynamics_appserveragent_unzip_${instance}"]
   -> Exec["appdynamics_machineagent_unzip_${instance}"]
   -> File["/etc/init.d/appdyn-machineagent-${instance}"]
   -> File["${installdir}/AppServerAgent-${instance}/conf/controller-info.xml"]
   -> File["${installdir}/MachineAgent-${instance}/conf/controller-info.xml"]
   -> Service["appdyn-machineagent-${instance}"]
-  -> anchor { 'appdynamics_agent::instance::end': }
+  -> anchor { "appdynamics_agent::instance::end::${instance}": }
 
 
   exec { "appdynamics_appserveragent_unzip_${instance}":
@@ -59,9 +59,9 @@ define appdynamics_agent::instance (
   }
 
   service { "appdyn-machineagent-${instance}":
-    ensure => running,
-    enable => true,
-    status => "pgrep -f machineagent.jar | grep ${instance}",
+    ensure    => running,
+    enable    => true,
+    hasstatus => true,
   }
 
 }
