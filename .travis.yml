@@ -1,0 +1,13 @@
+rvm: 1.9.3
+env:
+- PUPPET_GEM_VERSION=3.6
+- PUPPET_GEM_VERSION=3.7
+after_script: "bundle exec rake build"
+before_deploy: "puppet module build"
+deploy:
+  skip_cleanup: true
+  on:
+    all_branches: true
+    tags: true
+    repo: mpepping/puppet-appdynamics_agent
+
