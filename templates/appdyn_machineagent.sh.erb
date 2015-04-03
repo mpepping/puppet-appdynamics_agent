@@ -13,7 +13,7 @@ RETVAL=0
 
 JAVA="/usr/bin/java"
 
-AGENT_HOME="/opt/appdynamics/machineagent"
+AGENT_HOME="/opt/appdynamics/machineagent-<%= @instance %>"
 AGENT="$AGENT_HOME/machineagent.jar"
 
 AGENT_OPTIONS="$AGENT_OPTIONS -Xmx10m"
