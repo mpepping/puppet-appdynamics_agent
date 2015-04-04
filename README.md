@@ -14,7 +14,7 @@ Usage
 
 Class is instantiated via a host defintion or puppet ENC.
 
-    class { 'appdynamics': 
+    class { 'appdynamics_agent': 
       version => '3.9.1.0', 
       appgroup => 'java-app-x' 
     }
